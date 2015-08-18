@@ -15,7 +15,7 @@ do
 done
 
 foosrt=1
-for file in *.srt;
+for file in *.[sS][rR][tT];
 do
   ((foosrt++))
   SUBFILE=$file
