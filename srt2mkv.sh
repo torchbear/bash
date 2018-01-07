@@ -1,10 +1,12 @@
 #!//bin/bash
+
 # 
 # Automatic add subtitles container into MKV/MP4 video in current folder.
+# Directory has to contain exactly one mkv/mp4 file and one srt file.
+# Arg just to use different charset (default is cp1250) like utf8 etc.
 #
 
-MKVFILE=$1
-SUBFILE=$2
+CHARSET=$1
 
 foo=1
 shopt -s nullglob
@@ -34,10 +36,12 @@ then
 fi
 
 
-CZE_MKVFILE="cze_"${MKVFILE}
+CZE_MKVFILE="cze_"${CHARSET:-cp1250}"_"${MKVFILE}
 
-mkvmerge -v -o "${CZE_MKVFILE}" "${MKVFILE}" --sub-charset 0:cp1250 "${SUBFILE}" 
-#mkvmerge -v -o "/home/roman/${CZE_MKVFILE}" "${MKVFILE}" --sub-charset 0:utf8 "${SUBFILE}" 
+echo "Output to ${CZE_MKVFILE}\n"
+echo "Using charset ${CHARSET:-cp1250} (available: cp1250, utf8)"
+
+mkvmerge -v -o "${CZE_MKVFILE}" "${MKVFILE}" --sub-charset 0:${CHARSET:-cp1250} "${SUBFILE}" 
 
 read -p "Do you want to see the output? [Y/n]" -n 1 resp
 if [[ $resp =~ ^[Yy]$ ]] | [ -z $resp ]
